@@ -1,4 +1,6 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8"
+		import="java.util.*, java.sql.*"
+		import="java.awt.*"%>
 <!DOCTYPE html>
 <html>
 <head>
