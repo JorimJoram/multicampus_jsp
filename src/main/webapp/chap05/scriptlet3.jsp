@@ -19,31 +19,20 @@
 <body>
 
 	<table>
-	<tr>
-		<%for(int i=2; i<10; i++) {%>
-			<td><%= i %></td>
-		<%} %>
-	</tr>
-	<tr>
-		<%for(int i=2; i<10; i++) {%>
-			<tr>
-			<%for(int j=2; j<10; j++){ %>
-				<td><%= j %> * <%= i %> = <%= i*j %></td>
+		<tr>
+			<%for(int i=2; i<10; i++) {%>
+				<td><%= i %></td>
 			<%} %>
-			</tr>
-		<%} %>
-	</tr>
-			
-			<%-- <%for(int i=2; i<10; i++) {%>
-				<tr>
-					<td><%= i %>단</td>
-				</tr>
+		</tr>
+		<tr>
+			<%for(int i=2; i<10; i++) {%>
 				<tr>
 				<%for(int j=2; j<10; j++){ %>
-					<td><%= i %> * <%= j %> = <%= i*j %> </td>
+					<td><%= j %> * <%= i %> = <%= i*j %></td>
 				<%} %>
 				</tr>
-			<%} %> --%>
+			<%} %>
+		</tr>
 	</table>
 
 </body>
