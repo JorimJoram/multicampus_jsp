@@ -1,0 +1,21 @@
+<web-app version="4.0" xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee                       
+http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+metadata-complete="true">
+	
+	<servlet>
+		<servlet-name>configEx</servlet-name>
+		<jsp-file>/chap06/config.jsp</jsp-file>
+		<init-param>
+			<param-name>workspace</param-name>
+			<param-value>C:/Users/janghyolim/eclipse-workspace/myWeb</param-value>
+		</init-param>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>configEx</servlet-name>
+		<url-pattern>/chap06/configEx</url-pattern>
+	</servlet-mapping>
+
+</web-app>
