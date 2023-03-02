@@ -1,26 +1,23 @@
 <%@ page contentType="text/html; charset=UTF-8"
-	import="chap08.*, java.util.*"%>
+	import="test.*, java.util.*"%>
 <%
 	if(request.getMethod().equals("POST")){
 		request.setCharacterEncoding("UTF-8");
 	}
 %>
-<jsp:useBean id="dao" class="chap08.InstructorDAO" scope="session"/>
-<jsp:useBean id="testDO" class="chap08.InstructorDO" scope="page"/>
+<jsp:useBean id="dao" class="test.JdbcTestDAO" scope="session"/>
+<jsp:useBean id="testDO" class="test.JdbcTestDO" scope="page"/>
 
 <jsp:setProperty name="testDO" property="*"/>
-
 
 <%
 	if(request.getMethod().equals("POST")){
 		dao.insertJdbcTest(testDO);
 	}
-	ArrayList<InstructorDO> list = dao.selectAll();
-	String result = "";
-	
-	for(InstructorDO item : list){
-		result += "<li>"+item.getName() + " | ";
-		result += item.getEmail() + "</li>";
+	ArrayList<JdbcTestDO> items = dao.selectAll();
+	String list = "";
+	for(JdbcTestDO item : items){
+		list += "<li>username: " + item.getUsername() + " | " + item.getEmail();
 	}
 %>
 
@@ -34,13 +31,16 @@
 
 <body>
 
+	<h1>jdbc test</h1>
+	<hr>
+	
 	<form method="POST">
 		<fieldset>
 			<legend>사용자 등록</legend>
-			<label for="name">name</label>
-			<input type="text" name="name" id="name"/>
+			<label for="username">name</label>
+			<input type="text" name="username", id="username"/>
 			<label for="email">email</label>
-			<input type="email" name="email" id="email"/>
+			<input type="email" name="email", id="email"/>
 			<input type="submit" value="Regist"/>
 		</fieldset>
 	</form>
@@ -48,8 +48,7 @@
 	
 	<h3>Register List</h3>
 	<ol>
-		<%= result %>
+		<%= list %>
 	</ol>
-
 </body>
 </html>
