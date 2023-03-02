@@ -1,13 +1,24 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8"
+	import="chap08.*, java.util.*"%>
 
-<jsp:useBean id="jdbcBeans" class="chap08.JdbcBeans"/>
-<jsp:setProperty name="jdbcBeans" property="*"/>
+<jsp:useBean id="dao" class="chap08.InstructorDAO" scope="session"/>
+<jsp:useBean id="testDO" class="chap08.InstructorDO" scope="page"/>
+
+<jsp:setProperty name="testDO" property="*"/>
+
 
 <%
-	//java Beansd 와 action을 이용하여 동일한 기능 구현하시면 됩니다.
-	if(jdbcBeans.)
+	if(request.getMethod().equals("POST")){
+		dao.insertJdbcTest(testDO);
+	}
+	ArrayList<InstructorDO> list = dao.selectAll();
+	String result = "";
+	
+	for(InstructorDO item : list){
+		result += "<li>"+item.getName() + " | ";
+		result += item.getEmail() + "</li>";
+	}
 %>
-
 
 
 <!DOCTYPE html>
@@ -22,10 +33,10 @@
 	<form method="POST">
 		<fieldset>
 			<legend>사용자 등록</legend>
-			<label for="username">name</label>
-			<input type="text" name="username", id="username"/>
+			<label for="name">name</label>
+			<input type="text" name="name" id="name"/>
 			<label for="email">email</label>
-			<input type="email" name="email", id="email"/>
+			<input type="email" name="email" id="email"/>
 			<input type="submit" value="Regist"/>
 		</fieldset>
 	</form>
@@ -33,7 +44,7 @@
 	
 	<h3>Register List</h3>
 	<ol>
-		<%= jdbcBeans.getList() %>
+		<%= result %>
 	</ol>
 
 </body>
