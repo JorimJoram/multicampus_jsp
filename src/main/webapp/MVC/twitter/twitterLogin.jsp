@@ -1,16 +1,13 @@
 <%@ page contentType="text/html; charset=UTF-8"
 		import="twitter.*"%>
 		
-<% if(request.getMethod().equals("POST")){request.setCharacterEncoding("UTF-8");}%>
-		
-<jsp:useBean id="twitterDAO" class="twitter.twitterDAO" scope="session"/>
-<jsp:useBean id="loginDO" class="twitter.twitterDO"/>
-
+<jsp:useBean id="loginDAO" class="twitter.TwitterDAO" scope="session"/>
+<jsp:useBean id="loginDO" class="twitter.TwitterLoginDO" scope="page"/>
 <jsp:setProperty name="loginDO" property="*"/>
 
 <%
 	if(request.getMethod().equals("POST")){
-		twitterDO result = twitterDAO.getLoginDO(loginDO);
+		TwitterLoginDO result = loginDAO.checkLogin(loginDO);
 		if(result != null){
 			session.setAttribute("id", result.getId());
 			session.setAttribute("name", result.getName());

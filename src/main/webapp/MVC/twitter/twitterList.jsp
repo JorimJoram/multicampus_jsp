@@ -1,30 +1,26 @@
 <%@ page contentType="text/html; charset=UTF-8"
 	import="java.util.*,twitter.*"%>
-
-<% if(request.getMethod().equals("POST")){request.setCharacterEncoding("UTF-8");}%>
-
-<jsp:useBean id="twitterDAO" class="twitter.twitterDAO" scope="session"/>
-<jsp:useBean id="twitterDO" class="twitter.twitterListDO" />
+<% if(request.getMethod().equals("POST")) request.setCharacterEncoding("UTF-8");%>
+<jsp:useBean id="twitterDAO" class="twitter.TwitterDAO" scope="session"/>
+<jsp:useBean id="twitterDO" class="twitter.TwitterDO" scope="page"/>
 <jsp:setProperty name="twitterDO" property="message"/>
 
 <%
 	String command = request.getParameter("command");
-	if(request.getMethod().equals("POST") && command != null && command.equals("logout")){
+	if(command != null && command.equals("logout")){
 		session.invalidate();
 		response.sendRedirect("twitterLogin.jsp");
 	}
 	else{
-		if(request.getMethod().equals("POST") && command != null && command.equals("twitterInsert")){
-				twitterDO.setId((String)session.getAttribute("id"));
-				twitterDAO.insertTwitter(twitterDO);
+		if(command!=null && command.equals("twitterInsert")){
+			twitterDO.setId((String)session.getAttribute("id"));
+			twitterDAO.insertTwitter(twitterDO);
 		}
-		ArrayList<twitterListDO> list = twitterDAO.getAllTwitter();
-		String result = "";
-		
-		for(twitterListDO tDO : list){
-			result += "<li>" + tDO.getId() + " | " + tDO.getMessage() + " | " + tDO.getCreate_date() + "</li>";
-		}	
 	
+	String result = "";
+	ArrayList<TwitterDO> list = twitterDAO.getAllTwitter();
+	
+	for(TwitterDO tDO : list){result += "<li>" + tDO.getId() + " ::: " + tDO.getMessage() + " ::: " + tDO.getCreateDate() + "</li>";}
 %>
 <!DOCTYPE html>
 <html>
