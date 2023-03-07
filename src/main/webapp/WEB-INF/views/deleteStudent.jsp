@@ -3,16 +3,14 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>main</title>
+	<title>DeleteStudent</title>
 </head>
 
 <body>
 
-	<h1>Main</h1>
+	<h1>학생 정보 삭제</h1>
 	<hr>
-	
-	<h3>Main Page</h3>
-	
 
+	<button onclick="location.href='controller.jsp'">메뉴로 이동</button>
 </body>
 </html>
