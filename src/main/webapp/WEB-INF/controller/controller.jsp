@@ -23,7 +23,7 @@
 			}
 			else if(command.equals("성적삭제")){
 				pageContext.forward(viewPath + "deleteStudent.jsp");
-			}
+			}//test
 		}
 	}
 	else{
