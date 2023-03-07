@@ -18,4 +18,12 @@ metadata-complete="true">
 		<url-pattern>/chap06/configEx</url-pattern>
 	</servlet-mapping>
 
+	<context-param>
+		<param-name>adminID</param-name>
+		<param-value>jorim</param-value>
+	</context-param>
+	<context-param>
+		<param-name>adminPasswd</param-name>
+		<param-value>1234</param-value>
+	</context-param>
 </web-app>
