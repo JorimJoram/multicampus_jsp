@@ -26,4 +26,8 @@ metadata-complete="true">
 		<param-name>adminPasswd</param-name>
 		<param-value>1234</param-value>
 	</context-param>
+	
+	<listener>
+		<listener-class>chap11.InitialMember</listener-class>
+	</listener>
 </web-app>
