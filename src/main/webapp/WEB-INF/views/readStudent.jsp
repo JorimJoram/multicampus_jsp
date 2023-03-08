@@ -1,15 +1,17 @@
 <%@ page contentType="text/html; charset=UTF-8"
 	import="model.*, java.util.*"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <%
 	request.setCharacterEncoding("UTF-8");
 %>
 <%
 	@SuppressWarnings("unchecked")
-	ArrayList<StudentDO> students = (ArrayList<StudentDO>)session.getAttribute("students");
+	ArrayList<StudentDO> students = (ArrayList<StudentDO>)application.getAttribute("students");
 	@SuppressWarnings("unchecked")
-	ArrayList<ScoreDO> scores = (ArrayList<ScoreDO>)session.getAttribute("scores");
-	String result = "<table><tr><th>학번</th><th>이름</th><th>성별</th><th>생성날짜</th><th>국어</th><th>수학</th><th>영어</th><th>과학</th></tr>";
-	
+	ArrayList<ScoreDO> scores = (ArrayList<ScoreDO>)application.getAttribute("scores");
+	String result = "";
 	for(int i=0; i < students.size(); i++){
 		result += "<tr>" 
 					+"<td>"+ students.get(i).getId() + "</td>" 
@@ -22,40 +24,23 @@
 					+"<td>"+ scores.get(i).getScience() + "</td>"
 					+"</tr>";
 	}
-	result += "</table>";
-%>
-<%
-	StudentDO student = (StudentDO)session.getAttribute("student");
-	ScoreDO score = (ScoreDO)session.getAttribute("score");
-	String search = "";
-	
-	if(student != null && score != null){
-		if(student.getId().equals("-1") || score.getKorean() == -1){
-			search = "<p>등록되지 않은 학번의 학생입니다.<br>학번을 다시 확인하시고 조회해주시기 바랍니다.</p>";
-		}else{
-			search += "<table><tr><th>학번</th><th>이름</th><th>성별</th><th>생성날짜</th><th>국어</th><th>수학</th><th>영어</th><th>과학</th></tr>";
-			search += "<tr>" 
-						+"<td>"+ student.getId() + "</td>" 
-						+"<td>"+ student.getName() + "</td>" 
-						+"<td>"+ student.getGender() + "</td>"
-						+"<td>"+student.getCreateDate() +"</td>"
-						+"<td>"+ score.getKorean() + "</td>"
-						+"<td>"+ score.getMath() + "</td>"
-						+"<td>"+ score.getEnglish() + "</td>"
-						+"<td>"+ score.getScience() + "</td>"
-						+"</tr></table>";
-		}
-	}else{
-		search = "검색을 통해 학생을 조회해보세요!";
-	}
 %>
 
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="UTF-8">
-	<title>Read Student</title>
-</head>
+	<head>
+		<meta charset="UTF-8">
+		<title>Read Student</title>
+		<style>
+			td{
+				padding:20px;
+			}
+			#search_button_container{
+				padding:auto 10px;
+			}
+		</style>
+	</head>
+
 
 <body>
 
@@ -73,27 +58,60 @@
 	</form>
 	
 	<fieldset>
-		<legend>검색결과</legend>
-			<%= search %>
-			<%if(student != null && score != null){if(!(student.getId().equals("-1") || score.getKorean() == -1)){%>
-				<form method="POST" style="display:inline">
-					<input type="hidden" name="command" value="정보수정"/>
-					<input type="submit" value="정보수정"/>
-				</form>
-				<form method="POST" style="display:inline">
-					<input type="hidden" name="write" value="delete"/>
-					<input type="submit" value="정보삭제"/>
-				</form>
-			<%}}%>
+		<legend>검색결과</legend>		
+				<c:choose>
+					<c:when test="${sessionScope.student==null }">
+						<p>검색을 통해 학생을 조회해보세요!</p>
+					</c:when>
+					<c:when test="${sessionScope.student.id == '-1' }">
+						<p>등록되지 않은 학번의 학생입니다.<br>학번을 다시 확인하시고 조회해주시기 바랍니다.</p>
+					</c:when>
+					<c:otherwise>
+						<table>
+							<tr>
+								<th>학번</th><th>이름</th><th>성별</th><th>생성날짜</th><th>국어</th><th>수학</th><th>영어</th><th>과학</th>
+							</tr>
+							<tr>
+								<td>${sessionScope.student.id }</td>
+								<td>${sessionScope.student.name }</td>
+								<td>${sessionScope.student.gender }</td>
+								<td>${sessionScope.student.createDate }</td>
+								<td>${sessionScope.score.korean }</td>
+								<td>${sessionScope.score.math }</td>
+								<td>${sessionScope.score.english }</td>
+								<td>${sessionScope.score.science }</td>
+							</tr>
+						</table>
+						<div id="search_button_container">
+							<form method="POST" style="display:inline">
+								<input type="hidden" name="command" value="정보수정"/>
+								<input type="submit" value="정보수정"/>
+							</form>
+							<form method="POST" style="display:inline">
+								<input type="hidden" name="write" value="delete"/>
+								<input type="submit" value="정보삭제"/>
+							</form>
+						</div>
+					</c:otherwise>
+				</c:choose>
 	</fieldset>
 	
 	<fieldset>
 		<legend>전체 조회</legend>
-			<%= result %>
+			<c:choose>
+				<c:when test="${fn:length(students) == 0 }">
+					<p>학생 정보가 등록되어있지 않습니다.</p>
+				</c:when>
+				<c:otherwise>
+					<table>
+						<tr>
+							<th>학번</th><th>이름</th><th>성별</th><th>생성날짜</th><th>국어</th><th>수학</th><th>영어</th><th>과학</th>
+						</tr>
+						<%= result %>
+					</table>
+				</c:otherwise>
+			</c:choose>
 	</fieldset>
-	
-	
-	
-	<button onclick="location.href='controller.jsp'">메뉴로 이동</button>
+	<button onclick="location.href='controller.jsp'" style="margin-top : 10px;">메뉴로 이동</button>
 </body>
 </html>

@@ -24,8 +24,8 @@
 				pageContext.forward(viewPath + "createStudent.jsp");
 			}
 			else if(command.equals("성적조회")){
-				session.setAttribute("students", studentDAO.getStudentAll());
-				session.setAttribute("scores", studentDAO.getScoreAll());
+				application.setAttribute("students", studentDAO.getStudentAll());
+				application.setAttribute("scores", studentDAO.getScoreAll());
 				pageContext.forward(viewPath+"readStudent.jsp");
 			}
 			else if(command.equals("정보수정")){
@@ -63,8 +63,8 @@
 				
 				session.removeAttribute("student");
 				session.removeAttribute("score");
-				session.setAttribute("students", studentDAO.getStudentAll());
-				session.setAttribute("scores", studentDAO.getScoreAll());
+				application.setAttribute("students", studentDAO.getStudentAll());
+				application.setAttribute("scores", studentDAO.getScoreAll());
 				
 				pageContext.forward(viewPath + "readStudent.jsp");
 			}
