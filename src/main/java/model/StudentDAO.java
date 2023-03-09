@@ -50,7 +50,7 @@ public class StudentDAO {
 		int rowCount = 0;
 		this.sql = "insert into student (id, name, gender)"
 				+ " values(?, ?, ?)";
-		
+		System.out.println("Gender: " + student.getGender());
 		try {
 			pstmt = conn.prepareStatement(this.sql);
 			pstmt.setString(1, student.getId());
@@ -109,7 +109,7 @@ public class StudentDAO {
 	public ArrayList<StudentDO> getStudentAll(){
 		ArrayList<StudentDO> list = new ArrayList<StudentDO>();
 		StudentDO student = null;
-		this.sql = "select * from student";
+		this.sql = "select * from student order by id";
 		try {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(this.sql);
@@ -121,7 +121,11 @@ public class StudentDAO {
 				student.setName(rs.getString("name"));
 				student.setGender(rs.getString("gender"));
 				student.setCreateDate(rs.getString("createDate"));
-				
+				if(rs.getString("createDate").equals(rs.getString("modifiedDate"))) {
+					student.setModifiedDate("-");
+				}else {
+					student.setModifiedDate(rs.getString("modifiedDate"));
+				}
 				list.add(student);
 			}
 		}catch(Exception e) {
@@ -141,7 +145,7 @@ public class StudentDAO {
 	public ArrayList<ScoreDO> getScoreAll(){
 		ArrayList<ScoreDO> list = new ArrayList<ScoreDO>();
 		ScoreDO score = null;
-		this.sql = "select korean, math, english, science from score";
+		this.sql = "select korean, math, english, science from score order by s_id";
 		try {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(this.sql);
@@ -186,6 +190,11 @@ public class StudentDAO {
 				student.setName(rs.getString("name"));
 				student.setGender(rs.getString("gender"));
 				student.setCreateDate(rs.getString("createdate"));
+				if(rs.getString("createDate").equals(rs.getString("modifiedDate"))) {
+					student.setModifiedDate("-");
+				}else {
+					student.setModifiedDate(rs.getString("modifiedDate"));
+				}
 			}
 				
 		}catch(SQLException e) {
@@ -273,6 +282,63 @@ public class StudentDAO {
 				e.printStackTrace();
 			}
 		}
+		return rowCount;
+	}
+	
+	public int updateStudent(StudentDO student) {
+		System.out.println(student.getId());
+		int rowCount = 0;
+		this.sql = "update student "
+				+ " set name = ?, gender = ?, modifiedDate = sysdate "
+				+ "where id = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(this.sql);
+			pstmt.setString(1, student.getName());
+			pstmt.setString(2, student.getGender());
+			pstmt.setString(3, student.getId());
+			
+			
+			rowCount = pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(!pstmt.isClosed())
+					pstmt.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return rowCount;
+	}
+	public int updateScore(StudentDO student, ScoreDO score) {
+		int rowCount = 0;
+		this.sql = "update score "
+				+ "set korean = ?, math = ?, english = ?, science = ? "
+				+ "where s_id = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(this.sql);
+			pstmt.setDouble(1, score.getKorean());
+			pstmt.setDouble(2, score.getMath());
+			pstmt.setDouble(3, score.getEnglish());
+			pstmt.setDouble(4, score.getScience());
+			pstmt.setString(5, student.getId());
+			
+			rowCount = pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(!pstmt.isClosed())
+					pstmt.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 		return rowCount;
 	}
 }

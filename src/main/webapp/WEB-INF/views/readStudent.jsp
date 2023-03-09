@@ -1,11 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8"
-	import="model.*, java.util.*"%>
+	import="model.*, java.util.*, justfun.*"
+	errorPage="errorCreate.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-<%
-	request.setCharacterEncoding("UTF-8");
-%>
 <%
 	@SuppressWarnings("unchecked")
 	ArrayList<StudentDO> students = (ArrayList<StudentDO>)application.getAttribute("students");
@@ -22,6 +20,7 @@
 					+"<td>"+ scores.get(i).getMath() + "</td>"
 					+"<td>"+ scores.get(i).getEnglish() + "</td>"
 					+"<td>"+ scores.get(i).getScience() + "</td>"
+					+"<td>"+ students.get(i).getModifiedDate()+"</td>"
 					+"</tr>";
 	}
 %>
@@ -32,11 +31,19 @@
 		<meta charset="UTF-8">
 		<title>Read Student</title>
 		<style>
+			table{
+				text-align:center;
+			}
 			td{
 				padding:20px;
 			}
 			#search_button_container{
 				padding:auto 10px;
+			}
+			input[type="number"]::-webkit-inner-spin-button,
+			input[type="number"]::-webkit-outer-spin-button{
+				-webkit-appearance: none;
+				margin:0;
 			}
 		</style>
 	</head>
@@ -51,7 +58,7 @@
 		<fieldset>
 			<legend>학생 검색</legend>
 			<label>학번</label>
-			<input type="number" name="id"/>
+			<input type="number" name="id" placeholder="예)20162173"/>
 			<input type="hidden" name="write" value="search"/>
 			<input type="submit" value="검색"/>
 		</fieldset>
@@ -69,7 +76,7 @@
 					<c:otherwise>
 						<table>
 							<tr>
-								<th>학번</th><th>이름</th><th>성별</th><th>생성날짜</th><th>국어</th><th>수학</th><th>영어</th><th>과학</th>
+								<th>학번</th><th>이름</th><th>성별</th><th>등록일자</th><th>국어</th><th>수학</th><th>영어</th><th>과학</th><th>수정일자</th>
 							</tr>
 							<tr>
 								<td>${sessionScope.student.id }</td>
@@ -80,11 +87,17 @@
 								<td>${sessionScope.score.math }</td>
 								<td>${sessionScope.score.english }</td>
 								<td>${sessionScope.score.science }</td>
+								<td>${sessionScope.student.modifiedDate }</td>
+								<td>
+									<c:if test="${sessionScope.student.createDate == sessionScope.student.modifiedDate }">
+										-
+									</c:if>
+								</td>
 							</tr>
 						</table>
 						<div id="search_button_container">
 							<form method="POST" style="display:inline">
-								<input type="hidden" name="command" value="정보수정"/>
+								<input type="hidden" name="command" value="update"/>
 								<input type="submit" value="정보수정"/>
 							</form>
 							<form method="POST" style="display:inline">
@@ -105,7 +118,7 @@
 				<c:otherwise>
 					<table>
 						<tr>
-							<th>학번</th><th>이름</th><th>성별</th><th>생성날짜</th><th>국어</th><th>수학</th><th>영어</th><th>과학</th>
+							<th>학번</th><th>이름</th><th>성별</th><th>등록일자</th><th>국어</th><th>수학</th><th>영어</th><th>과학</th><th>수정일자</th>
 						</tr>
 						<%= result %>
 					</table>

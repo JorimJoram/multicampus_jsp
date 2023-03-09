@@ -5,7 +5,16 @@ public class StudentDO {
 	private String name;
 	private String gender;
 	private String createDate;
+	private String modifiedDate;
 	
+	public String getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(String modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
 	public StudentDO() {
 		
 	}
