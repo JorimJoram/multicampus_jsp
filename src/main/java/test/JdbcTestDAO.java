@@ -2,6 +2,8 @@ package test;
 
 import java.sql.*;
 import java.util.ArrayList;
+import javax.naming.*;
+import javax.sql.*;
 
 
 public class JdbcTestDAO {
@@ -10,18 +12,14 @@ public class JdbcTestDAO {
 	Connection conn;
 	String sql;
 	PreparedStatement pstmt;
+	DataSource ds = null;
 	
 	public JdbcTestDAO(){
-		String jdbc_driver = "oracle.jdbc.driver.OracleDriver";
-		String jdbc_url = "jdbc:oracle:thin:@localhost:1521:XE";
-		String user = "scott";
-		String pwd = "tiger";
 		try {
-			Class.forName(jdbc_driver);
-			this.conn = DriverManager.getConnection(jdbc_url, user, pwd);
-		}catch(ClassNotFoundException e) {
-			e.printStackTrace();
-		}catch(SQLException e) {
+			InitialContext context = new InitialContext();
+			ds = (DataSource)context.lookup("java:cpm/env/jdbc/oracleXE");
+			
+		}catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
