@@ -50,7 +50,6 @@ public class StudentDAO {
 		int rowCount = 0;
 		this.sql = "insert into student (id, name, gender)"
 				+ " values(?, ?, ?)";
-		System.out.println("Gender: " + student.getGender());
 		try {
 			pstmt = conn.prepareStatement(this.sql);
 			pstmt.setString(1, student.getId());
@@ -77,12 +76,6 @@ public class StudentDAO {
 		int rowCount = 0;
 		this.sql = "insert into score (id, s_id, korean, math, english, science)"
 				+ " values(score_seq.nextval, ?, ?, ?, ?, ?)";
-		
-		System.out.println(student.getId());
-		System.out.println(score.getKorean());
-		System.out.println(score.getMath());
-		System.out.println(score.getEnglish());
-		System.out.println(score.getScience());
 		try {
 			pstmt = conn.prepareStatement(this.sql);
 			pstmt.setString(1, student.getId());
@@ -145,14 +138,13 @@ public class StudentDAO {
 	public ArrayList<ScoreDO> getScoreAll(){
 		ArrayList<ScoreDO> list = new ArrayList<ScoreDO>();
 		ScoreDO score = null;
-		this.sql = "select korean, math, english, science from score order by s_id";
+		this.sql = "select * from score order by s_id";
 		try {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(this.sql);
 			
 			while(rs.next()) {
 				score = new ScoreDO();
-				
 				score.setKorean(rs.getDouble("korean"));
 				score.setMath(rs.getDouble("math"));
 				score.setEnglish(rs.getDouble("english"));
@@ -243,7 +235,6 @@ public class StudentDAO {
 	}
 
 	public int deleteScore(String s_id) {
-		System.out.println(s_id);
 		int rowCount = 0;
 		this.sql = "delete from score where s_id = ? ";
 		try {
@@ -286,7 +277,6 @@ public class StudentDAO {
 	}
 	
 	public int updateStudent(StudentDO student) {
-		System.out.println(student.getId());
 		int rowCount = 0;
 		this.sql = "update student "
 				+ " set name = ?, gender = ?, modifiedDate = sysdate "

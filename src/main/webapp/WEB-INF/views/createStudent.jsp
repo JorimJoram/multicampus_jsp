@@ -26,9 +26,9 @@
 		<fieldset>
 			<legend>학생정보 입력</legend>
 			<label for="id">학번</label>
-			<input type="text" name="id" pattern="^[0-9]+$"/><br>
+			<input type="text" name="id" pattern="^[0-9]+$" placeholder="예)20162173"/><br>
 			<label for="name">이름</label>
-			<input type="text" name="name"/><br>
+			<input type="text" name="name" placeholder="예)장효림"><br>
 			<label for="gender">성별</label>
 			<select name="gender">
 				<option selected>남</option>
@@ -39,13 +39,13 @@
 		<fieldset>
 			<legend>성적 입력</legend>
 			<label for="korean">국어</label>
-			<input type="number" step=0.01 name="korean" min="0" max="100"/><br>
+			<input type="number" step=0.01 name="korean" min="0" max="100" placeholder="0~100, 소수점 2자리" size=10/><br>
 			<label for="math">수학</label>
-			<input type="number" step=0.01 name="math" min="0" max="100"/><br>
+			<input type="number" step=0.01 name="math" min="0" max="100" placeholder="0~100, 소수점 2자리"/><br>
 			<label for="english">영어</label>
-			<input type="number" step=0.01 name="english" min="0" max="100"/><br>
+			<input type="number" step=0.01 name="english" min="0" max="100" placeholder="0~100, 소수점 2자리"/><br>
 			<label for="science">과학</label>
-			<input type="number" step=0.01 name="science" min="0" max="100"/><br>
+			<input type="number" step=0.01 name="science" min="0" max="100" placeholder="0~100, 소수점 2자리"/><br>
 		</fieldset>
 		
 		<input type="hidden" name="write" value="create_info"/>

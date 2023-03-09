@@ -64,7 +64,6 @@
 				pageContext.forward(viewPath + "readStudent.jsp");
 			}
 			else if(write.equals("update")){
-				System.out.println("in Controller: " + studentDO.getId());
 				studentDAO.updateStudent(studentDO);
 				studentDAO.updateScore(studentDO, scoreDO);
 				

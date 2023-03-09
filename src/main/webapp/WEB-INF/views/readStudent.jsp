@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8"
-	import="model.*, java.util.*, justfun.*"
+	import="model.*, java.util.*"
 	errorPage="errorCreate.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -9,6 +9,12 @@
 	ArrayList<StudentDO> students = (ArrayList<StudentDO>)application.getAttribute("students");
 	@SuppressWarnings("unchecked")
 	ArrayList<ScoreDO> scores = (ArrayList<ScoreDO>)application.getAttribute("scores");
+	for(StudentDO student:students)
+		System.out.println(student.getId());
+	System.out.println("SCORE: " + scores.toString());
+	for(ScoreDO score: scores){
+		System.out.println(score.getKorean());
+	}
 	String result = "";
 	for(int i=0; i < students.size(); i++){
 		result += "<tr>" 

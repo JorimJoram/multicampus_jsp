@@ -10,6 +10,7 @@ modifiedDate date default sysdate,
 constraint student_gender_ck check(gender in ('남', '여'))
 );
 
+
 create table score(
 id varchar2(8) constraint score_id_pk primary key,
 s_id varchar2(50) constraint score_sid_nn not null,
@@ -19,21 +20,33 @@ english number(5, 2) constraint english check(english between 0 and 100),
 science number(5, 2) constraint score_science_ck check(science between 0 and 100),
 constraint score_sid_fk foreign key(s_id) references student(id)
 );
-
 create sequence score_seq
 	start with 1
 	increment by 1
 	maxvalue 99999999
 	nocycle;
+	
+insert into student (id, name, gender)
+values ('20162173', '장효림', '남');
+insert into student (id, name, gender)
+values ('20080152', '정혜화', '여');
+insert into student (id, name, gender)
+values ('20009241', '주형준', '남');
+insert into student (id, name, gender)
+values ('20074175', '이효림', '여');
+insert into student (id, name, gender)
+values ('19822145', '김효남', '남');
+insert into score (id, s_id, korean, math, english, science)
+values(score_seq.nextval, '20162173', 93, 97.21, 100, 50.64);
+insert into score (id, s_id, korean, math, english, science)
+values(score_seq.nextval, '20080152', 100, 100, 100, 100);
+insert into score (id, s_id, korean, math, english, science)
+values(score_seq.nextval, '20009241', 10, 16.12, 2.6, 56);
+insert into score (id, s_id, korean, math, english, science)
+values(score_seq.nextval, '20074175', 70, 70, 70, 70);
+insert into score (id, s_id, korean, math, english, science)
+values(score_seq.nextval, '19822145', 100, 97.21, 100, 100);
 
-create table search(
-seq number(8) constraint search_seq_pk primary key,
-views number constraint search_views_ck check(views > 0), 
-id varchar(20)
-);
-create sequence search_seq
-	start with 1
-	increment by 1
-	maxvalue 99999999
-	nocycle;
+commit;
+
 
